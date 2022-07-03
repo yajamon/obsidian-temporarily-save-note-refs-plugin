@@ -10,13 +10,24 @@ const DEFAULT_SETTINGS: TemporarilySaveNoteRefsPluginSettings = {
     mySetting: 'default'
 }
 
+const VIEWTYPE_REFS = "temporarily-save-note-references";
+
 export default class TemporarilySaveNoteRefsPlugin extends Plugin {
     settings: TemporarilySaveNoteRefsPluginSettings;
 
     async onload() {
         await this.loadSettings();
 
+        this.registerView(VIEWTYPE_REFS, (leaf) => {
+            const view = new RefsView(leaf);
+            return view;
+        });
 
+        this.app.workspace.onLayoutReady(() => {
+            this.app.workspace.getRightLeaf(false).setViewState({
+                type: VIEWTYPE_REFS
+            });
+        });
 
         // This adds a settings tab so the user can configure various aspects of the plugin
         this.addSettingTab(new TemporarilySaveNoteRefsPluginSettingTab(this.app, this));
@@ -47,5 +58,14 @@ class TemporarilySaveNoteRefsPluginSettingTab extends PluginSettingTab {
         const { containerEl } = this;
 
         containerEl.empty();
+    }
+}
+
+class RefsView extends View {
+    getViewType(): string {
+        return VIEWTYPE_REFS;
+    }
+    getDisplayText(): string {
+        return "note refs";
     }
 }
