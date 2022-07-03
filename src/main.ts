@@ -19,7 +19,7 @@ export default class TemporarilySaveNoteRefsPlugin extends Plugin {
 
 
         // This adds a settings tab so the user can configure various aspects of the plugin
-        this.addSettingTab(new SampleSettingTab(this.app, this));
+        this.addSettingTab(new TemporarilySaveNoteRefsPluginSettingTab(this.app, this));
     }
 
     onunload() {
@@ -35,7 +35,7 @@ export default class TemporarilySaveNoteRefsPlugin extends Plugin {
     }
 }
 
-class SampleSettingTab extends PluginSettingTab {
+class TemporarilySaveNoteRefsPluginSettingTab extends PluginSettingTab {
     plugin: TemporarilySaveNoteRefsPlugin;
 
     constructor(app: App, plugin: TemporarilySaveNoteRefsPlugin) {
