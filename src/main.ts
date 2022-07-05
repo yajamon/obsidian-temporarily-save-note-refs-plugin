@@ -23,10 +23,15 @@ export default class TemporarilySaveNoteRefsPlugin extends Plugin {
             return view;
         });
 
-        this.app.workspace.onLayoutReady(() => {
-            this.app.workspace.getRightLeaf(false).setViewState({
-                type: VIEWTYPE_REFS
-            });
+
+        this.addCommand({
+            id: "show-pane",
+            name: "Show pane",
+            callback: () => {
+                this.app.workspace.getRightLeaf(false).setViewState({
+                    type: VIEWTYPE_REFS
+                });
+            },
         });
 
         // This adds a settings tab so the user can configure various aspects of the plugin
@@ -61,7 +66,10 @@ class TemporarilySaveNoteRefsPluginSettingTab extends PluginSettingTab {
     }
 }
 
-class RefsView extends View {
+class RefsView extends ItemView {
+
+    navigation = false;
+
     getViewType(): string {
         return VIEWTYPE_REFS;
     }
